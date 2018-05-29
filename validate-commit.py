@@ -5,8 +5,13 @@ import subprocess
 
 
 def is_valid_message(commit=None):
+    """
+    Validate commit messages according to Stacki commit message format:
+        https://github.com/Teradata/stacki/wiki/Development#commit-message-format
 
-    print(message + "\n-----")
+    Assume the following:
+        - Stacki is cloned to a directory named "stacki" (makes testing easier)
+        - Script is run from the repo root
 
     # ignore
     if message.startswith("Merge") or message.startswith("Update README.md"):
