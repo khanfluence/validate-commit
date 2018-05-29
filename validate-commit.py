@@ -13,7 +13,15 @@ def is_valid_message(commit=None):
         - Stacki is cloned to a directory named "stacki" (makes testing easier)
         - Script is run from the repo root
 
-    # ignore
+    :param commit: commit ID for testing; default will validate HEAD
+    """
+
+    result = subprocess.run(f"git show {commit} -s --format=%B",
+                            encoding="utf-8", shell=True,
+                            stdout=subprocess.PIPE, cwd="..\stacki")
+    message = result.stdout("utf-8").strip()
+
+    # special pass cases
     if message.startswith("Merge") or message.startswith("Update README.md"):
         return "pass: ignore"
 
