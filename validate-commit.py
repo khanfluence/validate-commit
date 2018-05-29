@@ -4,9 +4,7 @@ import re
 import subprocess
 
 
-def is_valid_message():
-    message = subprocess.run("git show -s --format=%B", shell=True, stdout=subprocess.PIPE, cwd="..\stacki")\
-        .stdout.decode("utf-8").strip()
+def is_valid_message(commit=None):
 
     print(message + "\n-----")
 
