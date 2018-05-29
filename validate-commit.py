@@ -12,9 +12,9 @@ def is_valid_message():
     if message.startswith("Merge") or message.startswith("Update README.md"):
         return "pass: ignore"
 
-    # starts with
+    # prefix
     if not re.search(r"^(BUGFIX|INTERNAL|FEATURE|RELEASE):", message):
-        return "fail: starts with"
+        return "fail: prefix"
 
     # multi-line cases
     if '\n' in message:
