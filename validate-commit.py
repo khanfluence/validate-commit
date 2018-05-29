@@ -16,7 +16,7 @@ def is_valid_message():
     if not re.search(r"^(BUGFIX|INTERNAL|FEATURE|RELEASE):", message):
         return "fail: starts with"
 
-    # multi-line
+    # multi-line cases
     if '\n' in message:
         # blank line
         if not re.search(r"[^\n]+\n\n[^\n]+", message):
