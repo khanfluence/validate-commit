@@ -23,23 +23,28 @@ def is_valid_message(commit=None):
 
     # special pass cases
     if message.startswith("Merge") or message.startswith("Update README.md"):
-        return "pass: ignore"
+        print("pass: ignore")  # expand, log
+        return True
 
     # prefix
-    if not re.search(r"^(BUGFIX|INTERNAL|FEATURE|RELEASE):", message):
-        return "fail: prefix"
+    if not re.search(r"^(BUGFIX|INTERNAL|FEATURE|DOCS):", message):
+        print("fail: prefix")  # expand, log
+        return False
 
     # multi-line cases
     if '\n' in message:
-        # blank line
-        if not re.search(r"[^\n]+\n\n[^\n]+", message):
-            return "fail: blank line"
+        # blank line; regex: exactly one blank line following oneline
+        if not re.search(r".+\n\n.+", message):
+            print("fail: blank line")  # expand, log
+            return False
 
         # jira
-        if re.search(r"STACKI-\d\d\d", message) and "JIRA" not in message:
-            return "fail: jira"
+        if re.search(r"STACKI-\d+", message) and "JIRA" not in message:
+            print("fail: jira")  # expand, log
+            return False
 
-    return "pass"
+    print("pass")  # expand, log
+    return True
 
 
 print(is_valid_message())
