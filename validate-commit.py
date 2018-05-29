@@ -6,9 +6,11 @@ def is_valid_message():
     message = subprocess.run("git show -s --format=%B", shell=True, stdout=subprocess.PIPE, cwd="..\stacki")\
         .stdout.decode("utf-8").strip()
 
-    # merge (ignore)
-    if message.startswith("Merge"):
-        return "pass: merge"
+    print(message)
+
+    # ignore
+    if message.startswith("Merge") or message.startswith("Update README.md"):
+        return "pass: ignore"
 
     # starts with
     if not re.search(r"^(BUGFIX|INTERNAL|FEATURE|RELEASE):", message):
