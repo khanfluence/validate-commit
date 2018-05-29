@@ -27,5 +27,4 @@ def is_valid_message():
     return "pass"
 
 
-with open("message.txt", 'r') as f:
-    print(validate(''.join(f.readlines())))
+print(is_valid_message())
