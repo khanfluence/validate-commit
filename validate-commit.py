@@ -7,19 +7,20 @@ import sys
 
 logging.basicConfig(format='%(message)s', level=logging.INFO)
 
-def is_valid_message(commit=""):
+
+def is_valid_message(commit_id=""):
     """
     Validate commit messages according to Stacki commit message format:
         https://github.com/Teradata/stacki/wiki/Development#commit-message-format
 
-    Assume the following:
+    Assumes the following:
         - Stacki is cloned to a directory named "stacki" (makes testing easier)
         - Script is run from the repo root
 
-    :param commit: commit ID for testing; default will validate HEAD
+    :param commit_id: commit ID for testing; default will validate HEAD
     """
 
-    result = subprocess.run(f"git show {commit} -s --format=%B",
+    result = subprocess.run(f"git show {commit_id} -s --format=%B",
                             encoding="utf-8", shell=True,
                             stdout=subprocess.PIPE, cwd="..\stacki")
     message = result.stdout.strip()
