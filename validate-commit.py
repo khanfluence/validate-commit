@@ -2,9 +2,10 @@
 
 import re
 import subprocess
+import sys
 
 
-def is_valid_message(commit=None):
+def is_valid_message(commit=""):
     """
     Validate commit messages according to Stacki commit message format:
         https://github.com/Teradata/stacki/wiki/Development#commit-message-format
