@@ -20,7 +20,7 @@ def is_valid_message(commit=""):
     result = subprocess.run(f"git show {commit} -s --format=%B",
                             encoding="utf-8", shell=True,
                             stdout=subprocess.PIPE, cwd="..\stacki")
-    message = result.stdout("utf-8").strip()
+    message = result.stdout.strip()
 
     # special pass cases
     if message.startswith("Merge") or message.startswith("Update README.md"):
