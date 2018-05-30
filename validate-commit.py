@@ -48,4 +48,17 @@ def is_valid_message(commit=""):
     return True
 
 
-print(is_valid_message())
+def main():
+    if len(sys.argv) > 0 and sys.argv[1] == "test":
+        result = subprocess.run("git log --format=format:%H",
+                                encoding="utf-8", shell=True,
+                                stdout=subprocess.PIPE, cwd="..\stacki")
+        for commit in result.stdout.strip().split()[:50]:
+            is_valid_message(commit)  # print commit message?
+            # line after if?
+    else:  # explicit else?
+        is_valid_message()
+
+
+if __name__ == "__main__":
+    main()
