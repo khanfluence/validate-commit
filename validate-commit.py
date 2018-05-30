@@ -35,7 +35,7 @@ def is_valid_message(commit=""):
     # multi-line cases
     if '\n' in message:
         # blank line; regex: exactly one blank line following oneline
-        if not re.search(r".+\n\n.+", message):
+        if not re.search(r"^.+\n\n.+", message):
             print("fail: blank line")  # expand, log
             return False
 
