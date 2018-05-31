@@ -21,8 +21,7 @@ def is_valid_message(commit_id=""):
     """
 
     result = subprocess.run(f"git show {commit_id} -s --format=%B",
-                            encoding="utf-8", shell=True,
-                            stdout=subprocess.PIPE, cwd="..\stacki")
+                            encoding="utf-8", stdout=subprocess.PIPE, cwd="../stacki")
     message = result.stdout.strip()
 
     # merge commit
@@ -70,8 +69,7 @@ def main():
     else:
         # test with recent commits
         result = subprocess.run("git log --format=format:%H",
-                                encoding="utf-8", shell=True,
-                                stdout=subprocess.PIPE, cwd="..\stacki")
+                                encoding="utf-8", stdout=subprocess.PIPE, cwd="../stacki")
         for commit_id in result.stdout.strip().split()[:20]:
             logging.info(commit_id)
             print("Pass" if is_valid_message(commit_id) else "Fail")
