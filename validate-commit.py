@@ -20,7 +20,7 @@ def is_valid_message(commit_id=''):
     :param commit_id: commit ID for testing; default will validate HEAD
     """
 
-    result = subprocess.run(f'git show {commit_id} -s --format=%B',
+    result = subprocess.run(f'git show {commit_id} -s --format=%B'.split(),
                             encoding='utf-8', stdout=subprocess.PIPE, cwd='../stacki')
     message = result.stdout.strip()
 
@@ -68,7 +68,7 @@ def main():
             sys.exit(1)
     else:
         # test with recent commits
-        result = subprocess.run('git log --format=format:%H',
+        result = subprocess.run('git log --format=format:%H'.split(),
                                 encoding='utf-8', stdout=subprocess.PIPE, cwd='../stacki')
         for commit_id in result.stdout.strip().split()[:20]:
             logging.info(commit_id)
