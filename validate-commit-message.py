@@ -9,20 +9,21 @@ from argparse import ArgumentParser
 logging.basicConfig(format='%(message)s', level=logging.INFO)
 
 
-def is_valid_message(commit_id=''):
+def is_valid_message(commit_id='', repo_path='.'):
     """
     Validate commit messages according to Stacki commit message format:
         https://github.com/Teradata/stacki/wiki/Development#commit-message-format
 
     Assumes the following:
         - Stacki is cloned to a directory named 'stacki' (makes testing easier)
-        - Script is run from the repo root
+        - Script is run from the repository root
 
-    :param commit_id: commit ID for testing; default will validate HEAD
+    :param commit_id: commit ID (for testing; default will validate HEAD)
+    :param repo_path: current working directory (for testing)
     """
 
     result = subprocess.run(f'git show {commit_id} -s --format=%B'.split(),
-                            encoding='utf-8', stdout=subprocess.PIPE, cwd='../stacki')
+                            encoding='utf-8', stdout=subprocess.PIPE, cwd=repo_path)
     message = result.stdout.strip()
 
     # merge commit
