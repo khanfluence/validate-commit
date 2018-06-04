@@ -4,6 +4,7 @@ import logging
 import re
 import subprocess
 import sys
+from argparse import ArgumentParser
 
 logging.basicConfig(format='%(message)s', level=logging.INFO)
 
@@ -58,23 +59,48 @@ def is_valid_message(commit_id=''):
     return True
 
 
-def main():
-    if len(sys.argv) == 1 or sys.argv[1] != 'test':
-        if is_valid_message():
-            print('Pass')
-            sys.exit(0)
-        else:
-            print('Fail')
-            sys.exit(1)
-    else:
-        # test with recent commits
-        result = subprocess.run('git log --format=format:%H'.split(),
-                                encoding='utf-8', stdout=subprocess.PIPE, cwd='../stacki')
-        for commit_id in result.stdout.strip().split()[:20]:
-            logging.info(commit_id)
-            print('Pass' if is_valid_message(commit_id) else 'Fail')
+def normal():
+    ensure_git_repo()
 
+    if is_valid_message():
+        print('Pass')
         sys.exit(0)
+    else:
+        print('Fail')
+        sys.exit(1)
+
+
+# test with recent commits from a specified repository
+def test(repo_path):
+    ensure_git_repo(repo_path)
+
+    result = subprocess.run('git log --format=format:%H'.split(),
+                            encoding='utf-8', stdout=subprocess.PIPE, cwd=repo_path)
+    for commit_id in result.stdout.strip().split()[:20]:
+        logging.info(commit_id)
+        print('Pass' if is_valid_message(commit_id=commit_id, repo_path=repo_path) else 'Fail')
+
+    sys.exit(0)
+
+
+def ensure_git_repo(repo_path='.'):
+    try:
+        if subprocess.run('git branch'.split(), stdout=subprocess.PIPE, cwd=repo_path).returncode == 128:
+            sys.exit(1)
+    except NotADirectoryError:
+        sys.stderr.write(f'Invalid directory: {repo_path}')
+        sys.exit(1)
+
+
+def main():
+    parser = ArgumentParser()
+    parser.add_argument("--test_repo_path", help="test mode")
+    args = parser.parse_args()
+
+    if args.test_repo_path is None:
+        normal()
+    else:
+        test(args.test_repo_path)
 
 
 if __name__ == '__main__':
